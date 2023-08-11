@@ -1,17 +1,32 @@
 package com.api.book.botrestbook.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "books")
 public class Book {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "book_id")
     private int id;
     private String title;
-    private String authour;
+//    private String authour;
+    //Nesting Custom Type in SB
+    @OneToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Author authour;
 
     public Book(){}
 
-    public Book(int id, String title, String authour) {
+    public Book(int id, String title, Author authour) {
         this.id = id;
         this.title = title;
         this.authour = authour;
     }
+
+
 
     public int getId() {
         return id;
@@ -29,11 +44,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthour() {
+    public Author getAuthour() {
         return authour;
     }
 
-    public void setAuthour(String authour) {
+    public void setAuthour(Author authour) {
         this.authour = authour;
     }
 
