@@ -1,6 +1,6 @@
 package com.jwt.authentication.controllers;
 
-import com.jwt.authentication.models.User;
+import com.jwt.authentication.entites.User;
 import com.jwt.authentication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
