@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AuthController {
-
+ public String token = "";
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -49,7 +51,9 @@ public class AuthController {
         JwtResponse response = JwtResponse.builder()
                 .jwtToken(token)
                 .username(userDetails.getUsername()).build();
+
         return new ResponseEntity<>(response, HttpStatus.OK);
+
     }
 
     private void doAuthenticate(String email, String password) {

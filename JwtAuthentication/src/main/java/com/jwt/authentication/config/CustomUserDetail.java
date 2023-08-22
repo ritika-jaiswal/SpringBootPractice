@@ -1,41 +1,38 @@
-package com.jwt.authentication.entites;
+package com.jwt.authentication.config;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Entity
-@Table(name = "user_table")
-public class User implements UserDetails {
-    @Id
-    private String userId;
-    private String name;
-    private String email;
-    private String password;
-    private String about;
-    private String role;
+public class CustomUserDetail implements UserDetails {
+    private User user;
 
+    public CustomUserDetail(User user) {
+        super();
+        this.user = user;
+    }
+
+    public CustomUserDetail(com.jwt.authentication.entites.User user) {
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority()
-        return null;
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(user.getAuthorities().toString());
+        return List.of(simpleGrantedAuthority);
+    }
+
+    @Override
+    public String getPassword() {
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return user.getUsername();
     }
 
     @Override
